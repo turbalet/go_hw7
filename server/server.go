@@ -16,6 +16,7 @@ type Server struct {
 }
 
 func NewServer(addr string, size int) *Server {
+	// size - amount of goroutines that handles connections
 	s := &Server{
 		quit: make(chan interface{}),
 		sm:   NewSemaphore(size),
@@ -45,8 +46,10 @@ func (s *Server) serve() {
 
 	for {
 		conn, err := s.listener.Accept()
+		// when we close listener err != nil
 		if err != nil {
 			select {
+			// if quit channel is closed return
 			case <-s.quit:
 				return
 			default:
@@ -64,6 +67,7 @@ func (s *Server) serve() {
 	}
 }
 
+// handle request in a separate goroutine
 func (s *Server) handleConnection(conn net.Conn) {
 	defer conn.Close()
 	buf := make([]byte, 2048)

@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// runs client without any delay which sends n to server and receive n*n
 func RunClient() {
 	strEcho := "5"
 	servAddr := "localhost:3333"
@@ -40,6 +41,7 @@ func RunClient() {
 
 }
 
+// runs client with delay(1000ms) to test graceful shutdown
 func RunClientWithDelay() {
 	strEcho := "5"
 	servAddr := "localhost:3333"
