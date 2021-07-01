@@ -9,11 +9,11 @@ import (
 
 func main() {
 	s := server.NewServer(":3333", 5)
-	go client.RunClient()
-	go client.RunClient()
-	time.Sleep(time.Millisecond * 200)
+	go client.RunClientWithDelay()
+	go client.RunClientWithDelay()
+	time.Sleep(time.Millisecond * 100)
 	s.Stop()
 	fmt.Println("Server stopped. Closed for new connections")
-	//go client.RunClient()
-	time.Sleep(time.Second * 10)
+	go client.RunClient()
+	time.Sleep(time.Second * 5)
 }

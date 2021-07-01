@@ -34,6 +34,7 @@ func (s *Server) Stop() {
 	close(s.quit)
 	// stops accepting new connection -> will cause error in serve() when Accept() -> return
 	s.listener.Close()
+	fmt.Println("Stop accepting new connections")
 	// waits until open connections returns
 	s.wg.Wait()
 	fmt.Println("All connections are closed")
@@ -57,13 +58,13 @@ func (s *Server) serve() {
 			go func() {
 				defer s.wg.Done()
 				defer s.sm.Release(1)
-				s.handleConection(conn)
+				s.handleConnection(conn)
 			}()
 		}
 	}
 }
 
-func (s *Server) handleConection(conn net.Conn) {
+func (s *Server) handleConnection(conn net.Conn) {
 	defer conn.Close()
 	buf := make([]byte, 2048)
 	n, err := conn.Read(buf)
